@@ -11,8 +11,8 @@ Geochemical simulation of Enhanced Rock Weathering (ERW) in Darjeeling tea plant
 - **Dual Benefits:** Climate action + agricultural soil enhancement
 
 ### 📁 Repository Contents
-├── darjeeling_erw.phr # PHREEQC input file with kinetic rate laws/n
-├── Visulation.py # Python visualization and analysis script/n
+├── darjeeling_erw.phr # PHREEQC input file with kinetic rate laws
+├── Visulation.py # Python visualization and analysis script
 ├── darjeeling_erw_results.out # PHREEQC simulation output data
 ├── darjeeling_erw_analysis.png # Publication-quality results visualization
 └── README.md # This file
