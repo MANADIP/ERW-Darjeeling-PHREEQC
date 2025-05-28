@@ -86,5 +86,5 @@ This project is open source and available under the MIT License.
 ---
 *Developed for Enhanced Rock Weathering research, carbon removal verification, and climate tech applications.*
 
-**Contact:** [Your Email] | **LinkedIn:** [Your Profile] | **Research Focus:** Geochemical Modeling & Climate Solutions
+**Contact:** sutradharmanadip01@gmail.com| **Research Focus:** Geochemical Modeling & Climate Solutions
 
