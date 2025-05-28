@@ -1,0 +1,123 @@
+DATABASE wateq4f.dat
+
+TITLE Enhanced Rock Weathering in Darjeeling Tea Plantation
+
+RATES
+Anorthite
+-start
+10 A0 = PARM(1)
+20 n = PARM(2)
+30 Ea = PARM(3)
+40 Temp_K = TC + 273.15
+50 R = 8.314
+60 k_25 = 10^-13.7
+70 k_T = k_25 * EXP((Ea/R) * (1/298.15 - 1/Temp_K))
+80 pH_effect = 10^(-0.5 * pH)
+90 IF M > 0 THEN SA_effect = (M/M0)^n ELSE SA_effect = 0
+100 affinity = 1 - SR("Anorthite")
+110 IF affinity < 0 THEN affinity = 0
+120 rate = A0 * k_T * pH_effect * SA_effect * affinity
+130 SAVE rate * TIME
+-end
+
+Diopside
+-start
+10 A0 = PARM(1)
+20 n = PARM(2)
+30 Ea = PARM(3)
+40 Temp_K = TC + 273.15
+50 R = 8.314
+60 k_25 = 10^-14.2
+70 k_T = k_25 * EXP((Ea/R) * (1/298.15 - 1/Temp_K))
+80 pH_effect = 10^(-0.3 * pH)
+90 IF M > 0 THEN SA_effect = (M/M0)^n ELSE SA_effect = 0
+100 affinity = 1 - SR("Diopside")
+110 IF affinity < 0 THEN affinity = 0
+120 rate = A0 * k_T * pH_effect * SA_effect * affinity
+130 SAVE rate * TIME
+-end
+
+Forsterite
+-start
+10 A0 = PARM(1)
+20 n = PARM(2)
+30 Ea = PARM(3)
+40 Temp_K = TC + 273.15
+50 R = 8.314
+60 k_25 = 10^-12.8
+70 k_T = k_25 * EXP((Ea/R) * (1/298.15 - 1/Temp_K))
+80 pH_effect = 10^(-0.6 * pH)
+90 IF M > 0 THEN SA_effect = (M/M0)^n ELSE SA_effect = 0
+100 affinity = 1 - SR("Forsterite")
+110 IF affinity < 0 THEN affinity = 0
+120 rate = A0 * k_T * pH_effect * SA_effect * affinity
+130 SAVE rate * TIME
+-end
+
+SOLUTION 1 Darjeeling tea plantation soil water
+  temp 18
+  pH 4.8
+  Ca 0.03
+  Mg 0.015
+  Si 0.08
+  Al 0.002
+  K 0.04
+  Na 0.02
+  C(4) 0.8 CO2(g) -3.5
+  Cl 0.01
+  S(6) 0.005
+  N(5) 0.001
+  units mmol/L
+
+EQUILIBRIUM_PHASES 1
+  Quartz -0.2 0
+  Kaolinite 0 0
+  Gibbsite 0 0
+
+KINETICS 1
+  Anorthite
+    -formula CaAl2Si2O8 1
+    -m 1.5
+    -m0 1.5
+    -parms 800 0.67 65000
+  Diopside
+    -formula CaMgSi2O6 1
+    -m 0.8
+    -m0 0.8
+    -parms 600 0.67 70000
+  Forsterite
+    -formula Mg2SiO4 1
+    -m 0.3
+    -m0 0.3
+    -parms 1200 0.67 60000
+  -steps 86400 in 365
+  -step_divide 1000
+  -runge_kutta 3
+  -bad_step_max 500
+
+SELECTED_OUTPUT
+  -file darjeeling_erw_results.out
+  -reset false
+  -step
+  -pH
+  -temperature
+  -alkalinity
+  -ionic_strength
+  -molalities Ca+2 Mg+2 K+ Na+ HCO3- H4SiO4 Al+3
+  -activities Ca+2 Mg+2 HCO3-
+  -saturation_indices Calcite Dolomite Gibbsite Kaolinite Quartz Anorthite Diopside Forsterite
+  -kinetic_reactants Anorthite Diopside Forsterite
+  -percent_error
+
+USER_PUNCH
+  -heading Step pH Alkalinity Ca_conc Mg_conc HCO3_conc
+  -start
+10 PUNCH STEP_NO
+20 PUNCH -LA("H+")
+30 PUNCH ALK
+40 PUNCH MOL("Ca+2")
+50 PUNCH MOL("Mg+2")
+60 PUNCH MOL("HCO3-")
+  -end
+
+END
